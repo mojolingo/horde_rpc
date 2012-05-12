@@ -134,4 +134,106 @@ RESPONSE
       horde.request('foo').should be == 'bar'
     end
   end
+
+  describe "fetching a client by ID" do
+    it "should return the fetched client data" do
+      horde = Horde.new 'http://horde.bar.com/rpc/'
+
+      id = "uid=foo@bar.com"
+
+      response = {
+        "__key"       => "uid=foo@bar.com",
+        "__uid"       => "foo@bar.com",
+        "firstname"   => "Joe",
+        "lastname"    => "Bloggs",
+        "name"        => "Joe Bloggs",
+        "email"       => "foo@bar.com",
+        "homePhone"   => "404 475 4840",
+        "workPhone"   => "404 475 4840",
+        "cellPhone"   => "404 475 4840",
+        "homeAddress" => "Foo Lane, NY",
+        "company"     => "Acme",
+        "id"          => "uid=foo@bar.com",
+        "__type"      => "Object",
+        "source"      => "bar_clients"
+      }
+
+      horde.expects(:request).once.with('clients.getClient', id).returns response
+
+      client = horde.get_client_by_id id
+      client.should be response
+    end
+  end
+
+  describe "searching for clients" do
+    it "should return a set of client data" do
+      horde = Horde.new 'http://horde.bar.com/rpc/'
+
+      response = {'Acme' => [
+        {
+          "__key"       => "uid=foo@bar.com",
+          "__uid"       => "foo@bar.com",
+          "firstname"   => "Joe",
+          "lastname"    => "Bloggs",
+          "name"        => "Joe Bloggs",
+          "email"       => "foo@bar.com",
+          "homePhone"   => "404 475 4840",
+          "workPhone"   => "404 475 4840",
+          "cellPhone"   => "404 475 4840",
+          "homeAddress" => "Foo Lane, NY",
+          "company"     => "Acme",
+          "id"          => "uid=foo@bar.com",
+          "__type"      => "Object",
+          "source"      => "bar_clients"
+        }]
+      }
+
+      horde.expects(:request).once.with('clients.searchClients', ['Acme'], ['company']).returns response
+
+      client = horde.search_clients :company => 'Acme'
+      client.should be response
+    end
+  end
+
+  describe "finding the first client by company name" do
+    it "should return the relevant client data" do
+      horde = Horde.new 'http://horde.bar.com/rpc/'
+
+      client_data = {
+        "__key"       => "uid=foo@bar.com",
+        "__uid"       => "foo@bar.com",
+        "firstname"   => "Joe",
+        "lastname"    => "Bloggs",
+        "name"        => "Joe Bloggs",
+        "email"       => "foo@bar.com",
+        "homePhone"   => "404 475 4840",
+        "workPhone"   => "404 475 4840",
+        "cellPhone"   => "404 475 4840",
+        "homeAddress" => "Foo Lane, NY",
+        "company"     => "Acme",
+        "id"          => "uid=foo@bar.com",
+        "__type"      => "Object",
+        "source"      => "bar_clients"
+      }
+      response = {'Acme' => [client_data]}
+
+      horde.expects(:request).once.with('clients.searchClients', ['Acme'], ['company']).returns response
+
+      client = horde.first_client_for_company 'Acme'
+      client.should be == client_data
+    end
+
+    context "if no matches are found" do
+      it "should return nil" do
+        horde = Horde.new 'http://horde.bar.com/rpc/'
+
+        response = {'Acme' => []}
+
+        horde.expects(:request).once.with('clients.searchClients', ['Acme'], ['company']).returns response
+
+        client = horde.first_client_for_company 'Acme'
+        client.should be nil
+      end
+    end
+  end
 end
