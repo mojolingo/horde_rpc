@@ -236,4 +236,45 @@ RESPONSE
       end
     end
   end
+
+  describe "recording time" do
+    it "should record time given the requested parameters" do
+      horde = Horde.new 'http://horde.bar.com/rpc/'
+
+      options = {
+        'date'        => Date.today,
+        'client'      => 'bob@acme.com',
+        'type'        => 1,
+        'hours'       => 1.2,
+        'description' => 'Did stuff',
+        'employee'    => 'foo@bar.com'
+      }
+
+      horde.expects(:request).once.with('time.recordTime', options)
+
+      horde.record_time options
+    end
+
+    %w{date client type hours description employee}.each do |required_option|
+      context "without specifying #{required_option}" do
+        it "should raise ArgumentError" do
+          horde = Horde.new 'http://horde.bar.com/rpc/'
+
+          options = {
+            'date'        => Date.today,
+            'client'      => 'bob@acme.com',
+            'type'        => 1,
+            'hours'       => 1.2,
+            'description' => 'Did stuff',
+            'employee'    => 'foo@bar.com'
+          }
+          options.merge! required_option => nil
+
+          horde.expects(:request).never
+
+          lambda { horde.record_time options }.should raise_error(ArgumentError)
+        end
+      end
+    end
+  end
 end

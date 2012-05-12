@@ -85,4 +85,20 @@ class Horde
     results = search_clients :company => name
     results[name].first
   end
+
+  ##
+  # Record time against a project
+  #
+  # @params [Hash] options
+  # @option options [Date] date the date of the billable activity
+  # @option options [String] client the ID of the client to bill
+  # @option options [Integer] type the type of billable activity
+  # @option options [Float] hours the number of hours to bill
+  # @option options [String] description a description of the billable activity
+  # @option options [String] employee the username of the employee performing the billable activity
+  #
+  def record_time(options)
+    raise ArgumentError unless options.values_at(*%w{date client type hours description employee}).all?
+    request 'time.recordTime', options
+  end
 end
