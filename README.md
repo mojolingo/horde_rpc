@@ -25,14 +25,15 @@ Examples
 ```ruby
   require 'horde'
   horde = Horde.new 'http://horde.bar.com'
-  client = horde.client :name => 'UberClient'
-  puts "Client by name 'UberClient' has ID #{client.id}"
+  client = horde.first_client_for_company 'UberClient'
+  puts "Client by name 'UberClient' has ID #{client['id']}"
 
-  horde.record_time :client       => client,
+  horde.record_time :client       => client['id'],
                     :date         => Date.today,
                     :hours        => 3.5,
                     :employee     => 'foo@bar.com',
                     :description  => 'Did stuff'
+                    :type         => 1
 ```
 
 Author
