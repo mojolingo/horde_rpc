@@ -1,17 +1,17 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "horde/version"
+require "horde_rpc/version"
 
 Gem::Specification.new do |s|
-  s.name        = "horde"
-  s.version     = Horde::VERSION
+  s.name        = "horde_rpc"
+  s.version     = HordeRPC::VERSION
   s.authors     = ["Ben Langfeld"]
   s.email       = ["ben@langfeld.me"]
-  s.homepage    = "http://github.com/mojolingo/horde-ruby"
+  s.homepage    = "http://github.com/mojolingo/horde_rpc"
   s.summary     = %q{A Horde XML-RPC client library in Ruby}
-  s.description = %q{horde is a client library for accessing the Horde XML-RPC interface from Ruby.}
+  s.description = %q{horde_rpc is a client library for accessing the Horde XML-RPC interface from Ruby.}
 
-  s.rubyforge_project = "horde"
+  s.rubyforge_project = "horde_rpc"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

@@ -1,7 +1,7 @@
-horde
+horde_rpc
 ===========
 
-horde is a client library for accessing the Horde XML-RPC interface from Ruby.
+horde_rpc is a client library for accessing the Horde XML-RPC interface from Ruby.
 
 Features
 --------
@@ -17,14 +17,14 @@ Requirements
 Install
 -------
 
-    gem install horde
+    gem install horde_rpc
 
 Examples
 --------
 
 ```ruby
-  require 'horde'
-  horde = Horde.new 'http://horde.bar.com'
+  require 'horde_rpc'
+  horde = HordeRPC.new 'http://horde.bar.com'
   client = horde.first_client_for_company 'UberClient'
   puts "Client by name 'UberClient' has ID #{client['id']}"
 
@@ -43,9 +43,9 @@ Original author: Ben Langfeld
 
 Links
 -----
-* [Source](https://github.com/mojolingo/horde-ruby)
-* [Documentation](http://rdoc.info/github/mojolingo/horde-ruby/master/frames)
-* [Bug Tracker](https://github.com/mojolingo/horde-ruby/issues)
+* [Source](https://github.com/mojolingo/horde_rpc)
+* [Documentation](http://rdoc.info/github/mojolingo/horde_rpc/master/frames)
+* [Bug Tracker](https://github.com/mojolingo/horde_rpc/issues)
 
 Note on Patches/Pull Requests
 -----------------------------
