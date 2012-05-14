@@ -242,12 +242,12 @@ RESPONSE
       horde = Horde.new 'http://horde.bar.com/rpc/'
 
       options = {
-        'date'        => Date.today,
-        'client'      => 'bob@acme.com',
-        'type'        => 1,
-        'hours'       => 1.2,
-        'description' => 'Did stuff',
-        'employee'    => 'foo@bar.com'
+        :date         => Date.today,
+        :client       => 'bob@acme.com',
+        :type         => 1,
+        :hours        => 1.2,
+        :description  => 'Did stuff',
+        :employee     => 'foo@bar.com'
       }
 
       horde.expects(:request).once.with('time.recordTime', options)
@@ -261,14 +261,14 @@ RESPONSE
           horde = Horde.new 'http://horde.bar.com/rpc/'
 
           options = {
-            'date'        => Date.today,
-            'client'      => 'bob@acme.com',
-            'type'        => 1,
-            'hours'       => 1.2,
-            'description' => 'Did stuff',
-            'employee'    => 'foo@bar.com'
+            :date         => Date.today,
+            :client       => 'bob@acme.com',
+            :type         => 1,
+            :hours        => 1.2,
+            :description  => 'Did stuff',
+            :employee     => 'foo@bar.com'
           }
-          options.merge! required_option => nil
+          options.merge! required_option.to_sym => nil
 
           horde.expects(:request).never
 
