@@ -1,7 +1,7 @@
-require 'horde/version'
+require 'horde_rpc/version'
 require 'xmlrpc/client'
 
-class Horde
+class HordeRPC
   ##
   # Create a new instance of the Horde connection
   #

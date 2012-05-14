@@ -1,4 +1,4 @@
-require 'horde'
+require 'horde_rpc'
 require 'mocha'
 require 'fakeweb'
 

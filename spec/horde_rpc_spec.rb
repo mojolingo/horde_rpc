@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe Horde do
+describe HordeRPC do
   describe "sending requests" do
     before do
       FakeWeb.clean_registry
     end
 
     it "should hit the specified domain/port" do
-      horde = Horde.new 'http://horde.bar.com/rpc/'
+      horde = HordeRPC.new 'http://horde.bar.com/rpc/'
 
       FakeWeb.register_uri :post, "http://horde.bar.com/rpc/",
                            :status => ["200", "OK"],
@@ -27,7 +27,7 @@ RESPONSE
     end
 
     it "should be formatted as XMLRPC" do
-      horde = Horde.new 'http://horde.bar.com/rpc/'
+      horde = HordeRPC.new 'http://horde.bar.com/rpc/'
 
       FakeWeb.register_uri :post, "http://horde.bar.com/rpc/",
                            :status => ["200", "OK"],
@@ -49,7 +49,7 @@ RESPONSE
     end
 
     it "should invoke the correct method, with the correct parameters, including user/password options" do
-      horde = Horde.new 'http://horde.bar.com/rpc/', 'usera', 'passwordb'
+      horde = HordeRPC.new 'http://horde.bar.com/rpc/', 'usera', 'passwordb'
 
       FakeWeb.register_uri :post, "http://usera:passwordb@horde.bar.com/rpc/",
                            :status => ["200", "OK"],
@@ -71,7 +71,7 @@ RESPONSE
     end
 
     it "should be able to make a request without options" do
-      horde = Horde.new 'http://horde.bar.com/rpc/'
+      horde = HordeRPC.new 'http://horde.bar.com/rpc/'
 
       FakeWeb.register_uri :post, "http://horde.bar.com/rpc/",
                            :status => ["200", "OK"],
@@ -93,7 +93,7 @@ RESPONSE
     end
 
     it "should be able to make a request with multiple options" do
-      horde = Horde.new 'http://horde.bar.com/rpc/'
+      horde = HordeRPC.new 'http://horde.bar.com/rpc/'
 
       FakeWeb.register_uri :post, "http://horde.bar.com/rpc/",
                            :status => ["200", "OK"],
@@ -115,7 +115,7 @@ RESPONSE
     end
 
     it "should return the returned data structure" do
-      horde = Horde.new 'http://horde.bar.com/rpc/'
+      horde = HordeRPC.new 'http://horde.bar.com/rpc/'
 
       FakeWeb.register_uri :post, "http://horde.bar.com/rpc/",
                            :status => ["200", "OK"],
@@ -137,7 +137,7 @@ RESPONSE
 
   describe "fetching a client by ID" do
     it "should return the fetched client data" do
-      horde = Horde.new 'http://horde.bar.com/rpc/'
+      horde = HordeRPC.new 'http://horde.bar.com/rpc/'
 
       id = "uid=foo@bar.com"
 
@@ -167,7 +167,7 @@ RESPONSE
 
   describe "searching for clients" do
     it "should return a set of client data" do
-      horde = Horde.new 'http://horde.bar.com/rpc/'
+      horde = HordeRPC.new 'http://horde.bar.com/rpc/'
 
       response = {'Acme' => [
         {
@@ -197,7 +197,7 @@ RESPONSE
 
   describe "finding the first client by company name" do
     it "should return the relevant client data" do
-      horde = Horde.new 'http://horde.bar.com/rpc/'
+      horde = HordeRPC.new 'http://horde.bar.com/rpc/'
 
       client_data = {
         "__key"       => "uid=foo@bar.com",
@@ -225,7 +225,7 @@ RESPONSE
 
     context "if no matches are found" do
       it "should return nil" do
-        horde = Horde.new 'http://horde.bar.com/rpc/'
+        horde = HordeRPC.new 'http://horde.bar.com/rpc/'
 
         response = {'Acme' => []}
 
@@ -239,7 +239,7 @@ RESPONSE
 
   describe "recording time" do
     it "should record time given the requested parameters" do
-      horde = Horde.new 'http://horde.bar.com/rpc/'
+      horde = HordeRPC.new 'http://horde.bar.com/rpc/'
 
       options = {
         :date         => Date.today,
@@ -258,7 +258,7 @@ RESPONSE
     %w{date client type hours description employee}.each do |required_option|
       context "without specifying #{required_option}" do
         it "should raise ArgumentError" do
-          horde = Horde.new 'http://horde.bar.com/rpc/'
+          horde = HordeRPC.new 'http://horde.bar.com/rpc/'
 
           options = {
             :date         => Date.today,
